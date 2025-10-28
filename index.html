@@ -1,106 +1,145 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>
 
 xcc
 
-</title><style>
+</title>
+<style>
+
+/* CRITICAL: Ensure the body takes full viewport height and width */
+html, body {
+  height: 100%; 
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 body { 
-  background: #000;
-  color: #afa;
+  /* Base Style: Dark Background, Cyber-Green Text */
+  background: #000000; 
+  color: #00FF77; /* Neon Mint */
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column-reverse; /* Output, Text, Buttons */
+}
+
+/* Primary Flex Items (Children of body) */
+#webButtons, #webTexts, #webOutput {
+  width: 100%; /* Ensure all primary blocks span full width */
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 #webTexts {
-  flex: 40%;
+  flex-basis: 40%; /* 40% of viewport height */
   display: flex;
-  flex-direction: column;
-}
-
-#commandLine {
-  background: #aaa;
-  color: #000;
-  border: 4px solid white;
-  flex: 25%;
-}
-
-#webText {
-  background: #aaa;
-  color: #000;
-  border: 4px solid white;
-  flex: 75%;
+  flex-direction: column; /* Stack the text areas vertically */
 }
 
 #webButtons {
+  flex-basis: 15%; /* 15% of viewport height */
   display: flex;
   flex-direction: row;
-  flex: 15%;
   flex-wrap: wrap;
 }
 
-#webButtons button {
-  flex: 16%;
-  height: 4em;
-  padding: 1em;
-  background: #00f;
-  color: #fff;
-}
-
-#webButtons .runnable {
-  background: green;
-  color: white;
-}
-
 #webOutput {
-  flex: 45%;
-  border: 10px solid blue;
+  flex-basis: 45%; /* 45% of viewport height */
+  border: 10px solid #00BFFF; /* Deep System Blue Border */
   border-radius: 5%;
   display: flex;
   flex-direction: column-reverse;
-  overflow: scroll;
+  overflow-y: auto;
   height: auto;
-  background-color: #000;
-  opacity: 80%;
+  background-color: #000000;
+  opacity: 1; 
 }
 
+/* Internal Flex Items (Children of #webTexts) */
+#commandLine, #webText {
+  /* High-Contrast Cyberpunk Look */
+  background: #111111; /* Dark Gray */
+  color: #00FF77; /* Neon Mint */
+  border: 4px solid #00FF77; /* Matching Neon Border */
+  font-family: 'Consolas', 'Monaco', monospace;
+  padding: 1em; 
+  width: auto; 
+  box-sizing: border-box; /* Include padding/border in the height/width calculation */
+}
+
+#commandLine {
+  flex-grow: 1; /* 25% of the 40% area */
+}
+
+#webText {
+  flex-grow: 3; /* 75% of the 40% area */
+}
+
+/* Button Styling */
+#webButtons button {
+  flex: 0 0 16%;
+  height: 4em;
+  padding: 1em;
+  background: #00BFFF; /* System Blue */
+  color: #FFFFFF; /* White Text */
+  border: 2px solid #FFFFFF;
+}
+
+#webButtons .runnable {
+  /* Run Button: Bright Green for Action */
+  background: #00FF77; /* Neon Mint */
+  color: #000000; /* Black Text on Green */
+  border: 2px solid #FFFFFF;
+}
+
+/* Output Line Styling */
 .pout {
-  border: 5px solid gold;
+  border: 5px solid gold; /* Retained for 'Successful' Status */
   margin: 2em;
   padding: 1em;
   border-radius: 5px;
+  color: #00FF77; /* Ensure output text is neon green */
 }
 
-</style><script type="importmap">
+</style>
+<script type="importmap">
   {
     "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@v0.180.0/build/three.module.js",
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.180.0/examples/jsm/",
-      
+
     }
   }
-</script></head><body>
+</script>
+</head>
+<body>
 
 <div id="webButtons">
   <button id="runButton" class="runnable"> Run </button>
 </div>
 <div id="webTexts">
-  <textarea id="webText" rows="18" cols="60"></textarea>
-  <textarea id="commandLine" rows="5" cols="60"></textarea>
+  <textarea id="webText"></textarea>
+  <textarea id="commandLine"></textarea>
 </div>
 <div id="webOutput"></div>
 
 <script>
 const webOutput= document.getElementById('webOutput');
 const runButton= document.getElementById('runButton');
+
 function t(){
-let p= document.createElement('p');
-p.innerHTML= "Hello, JavaScript";
-p.className= "pout";
-webOutput.appendChild( p );
+  let p= document.createElement('p');
+  p.innerHTML= "Hello, JavaScript";
+  p.className= "pout";
+  webOutput.appendChild( p );
 }
+
 runButton.addEventListener("click", ()=>{
   t();
 } );
 </script>
 
-</body></html>
+</body>
+</html>
