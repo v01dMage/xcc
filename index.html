@@ -76,7 +76,9 @@ body {
   }
 </script></head><body>
 
-<div id="webButtons"></div>
+<div id="webButtons">
+  <button id="runButton" class="runnable"> Run </button>
+</div>
 <div id="webTexts">
   <textarea id="commandLine" rows="5" cols="60"></textarea>
   <textarea id="webText" rows="18" cols="60"></textarea>
@@ -84,10 +86,15 @@ body {
 <div id="webOutput"></div>
 
 <script>
+function t(){
 let p= document.createElement('p');
 p.innerHTML= "Hello, JavaScript";
 p.className= "pout";
 webOutput.appendChild( p );
+}
+runButton.addEventHandler("click", ()=>{
+  t();
+} );
 </script>
 
 </body></html>
