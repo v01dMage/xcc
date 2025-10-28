@@ -12,7 +12,10 @@ body {
   flex-wrap: wrap;
 }
 
-#webTexts {}
+#webTexts {
+  flex: 40%;
+  display: flex;
+}
 
 #commandLine {
   background: #aaa;
@@ -25,13 +28,13 @@ body {
   background: #aaa;
   color: #000;
   border: 4px solid white;
-  flex: 50%;
+  flex: 75%;
 }
 
 #webButtons {
   display: flex;
   flex-direction: row;
-  flex: 30%;
+  flex: 15%;
   flex-wrap: wrap;
 }
 
@@ -49,6 +52,7 @@ body {
 }
 
 #webOutput {
+  flex: 45%;
   border: 10px solid blue;
   border-radius: 5%;
   display: flex;
@@ -80,8 +84,8 @@ body {
   <button id="runButton" class="runnable"> Run </button>
 </div>
 <div id="webTexts">
-  <textarea id="commandLine" rows="5" cols="60"></textarea>
   <textarea id="webText" rows="18" cols="60"></textarea>
+  <textarea id="commandLine" rows="5" cols="60"></textarea>
 </div>
 <div id="webOutput"></div>
 
