@@ -86,13 +86,15 @@ body {
 <div id="webOutput"></div>
 
 <script>
+const webOutput= document.getElementById('webOutput');
+const runButton= document.getElementById('runButton');
 function t(){
 let p= document.createElement('p');
 p.innerHTML= "Hello, JavaScript";
 p.className= "pout";
 webOutput.appendChild( p );
 }
-runButton.addEventHandler("click", ()=>{
+runButton.addEventListener("click", ()=>{
   t();
 } );
 </script>
