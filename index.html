@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>
+<!DOCTYPE html<html lang="en">
+<head><meta charset="utf-8"><title>
 
 xcc
 
-</title>
-<style>
+</title><style>
 
-/* CRITICAL: Ensure the body takes full viewport height and width */
 html, body {
   height: 100%; 
   width: 100%;
@@ -18,36 +13,34 @@ html, body {
 }
 
 body { 
-  /* Base Style: Dark Background, Cyber-Green Text */
-  background: #000000; 
-  color: #00FF77; /* Neon Mint */
+  background: #111; 
+  color: #00ff55; 
   display: flex;
-  flex-direction: column-reverse; /* Output, Text, Buttons */
+  flex-direction: column-reverse;
 }
 
-/* Primary Flex Items (Children of body) */
 #webButtons, #webTexts, #webOutput {
-  width: 100%; /* Ensure all primary blocks span full width */
+  width: 100%; 
   flex-grow: 0;
   flex-shrink: 0;
 }
 
 #webTexts {
-  flex-basis: 40%; /* 40% of viewport height */
+  flex-basis: 30%; 
   display: flex;
-  flex-direction: column; /* Stack the text areas vertically */
+  flex-direction: column;
 }
 
 #webButtons {
-  flex-basis: 15%; /* 15% of viewport height */
+  flex-basis: 20%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
 #webOutput {
-  flex-basis: 45%; /* 45% of viewport height */
-  border: 10px solid #00BFFF; /* Deep System Blue Border */
+  flex-basis: 50%; 
+  border: 10px solid #0055FF; 
   border-radius: 5%;
   display: flex;
   flex-direction: column-reverse;
@@ -57,64 +50,60 @@ body {
   opacity: 1; 
 }
 
-/* Internal Flex Items (Children of #webTexts) */
 #commandLine, #webText {
-  /* High-Contrast Cyberpunk Look */
-  background: #111111; /* Dark Gray */
-  color: #00FF77; /* Neon Mint */
-  border: 4px solid #00FF77; /* Matching Neon Border */
+  background: #111111; 
+  color: #00FF77; 
+  border: 4px solid #00FF77; 
   font-family: 'Consolas', 'Monaco', monospace;
   padding: 1em; 
   width: auto; 
-  box-sizing: border-box; /* Include padding/border in the height/width calculation */
+  box-sizing: border-box;
 }
 
 #commandLine {
-  flex-grow: 1; /* 25% of the 40% area */
+  flex-grow: 1; 
 }
 
 #webText {
-  flex-grow: 3; /* 75% of the 40% area */
+  flex-grow: 2; 
 }
 
-/* Button Styling */
 #webButtons button {
   flex: 0 0 16%;
   height: 4em;
   padding: 1em;
-  background: #00BFFF; /* System Blue */
-  color: #FFFFFF; /* White Text */
-  border: 2px solid #FFFFFF;
+  background: #0BF; 
+  color: #FFF; 
+  border: 2px solid #FFF;
 }
 
 #webButtons .runnable {
-  /* Run Button: Bright Green for Action */
-  background: #00FF77; /* Neon Mint */
-  color: #000000; /* Black Text on Green */
+  background: #B7F; 
+  color: #000000; 
   border: 2px solid #FFFFFF;
 }
 
-/* Output Line Styling */
+
 .pout {
-  border: 5px solid gold; /* Retained for 'Successful' Status */
+  border: 5px solid gold; 
   margin: 2em;
   padding: 1em;
   border-radius: 5px;
-  color: #00FF77; /* Ensure output text is neon green */
+  color: #00FF77; 
 }
 
 .pout.input-command {
-  border: 5px solid #00BFFF; /* System Blue border for user input */
-  color: #FFFFFF; /* White text for the command itself */
+  border: 5px solid #00BFFF; 
+  color: #FFFFFF; 
 }
 
 .pout.result-output {
-  border: 5px solid #00FF77; /* Neon Mint for successful output */
+  border: 5px solid #00FF77; 
   color: #00FF77; 
 }
 
 .pout.error-output {
-  border: 5px solid #FF0000; /* Vile Red for errors */
+  border: 5px solid #FF0000; 
   color: #FF0000;
   font-weight: bold;
 }
@@ -129,8 +118,7 @@ body {
     }
   }
 </script>
-</head>
-<body>
+</head><body>
 
 <div id="webButtons">
   <button id="runButton" class="runnable"> Run </button>
@@ -142,62 +130,46 @@ body {
 <div id="webOutput"></div>
 
 <script>
-// Get explicit element references
-const webOutput   = document.getElementById('webOutput');
-const runButton   = document.getElementById('runButton');
-const commandLine = document.getElementById('commandLine');
-const webText     = document.getElementById('webText'); // For shared scope/context if needed later
 
-// Helper function to print output to the screen
+const webOutput= document.getElementById('webOutput');
+const runButton= document.getElementById('runButton');
+const commandLine= document.getElementById('commandLine');
+const webText= document.getElementById('webText'); 
+
+
 function printOutput(html, className = 'pout') {
-    let p = document.createElement('p');
-    p.innerHTML = html;
-    p.className = className;
+    let p= document.createElement('p');
+    p.innerHTML= html;
+    p.className= className;
     webOutput.appendChild(p);
-    // Auto-scroll to the bottom of the output area
-    webOutput.scrollTop = webOutput.scrollHeight;
 }
 
-// Function to handle the REPL process: Read, Eval, Print, Loop
+
 function runPsiRepl() {
     const code = commandLine.value.trim();
 
-    if (!code) return; // Ignore empty input
-
-    // 1. READ: Display the command that was entered
+    if (!code) return; 
     printOutput(`> ${code}`, 'pout input-command'); 
 
-    // 2. EVAL: Execute the code safely
     try {
-        // Use a function constructor to execute code outside the runPsiRepl local scope, 
-        // but still within the global window scope (where webOutput, runButton, etc. live).
-        // This is necessary because direct eval() often runs in the local function scope.
-        const result = (new Function(code))();
-        
-        // 3. PRINT: Display the result (or 'undefined' if no value was returned)
-        const outputString = (result === undefined) ? 'undefined' : String(result);
-        printOutput(`\u2190 ${outputString}`, 'pout result-output'); // Use Unicode left arrow
+        const result= (new Function('psi', code))({psi:13});
+        const outputString= (result === undefined) ? 'undefined' : String(result);
+        printOutput(`\u2190 ${outputString}`, 'pout result-output'); //Unicode left arrow
 
     } catch (e) {
-        // Handle and display execution errors
         printOutput(`ERROR: ${e.message}`, 'pout error-output');
     }
 
-    // 4. LOOP: Clear the input area for the next command
     commandLine.value = '';
 }
 
-// Attach the REPL function to the Run button
 runButton.addEventListener("click", runPsiRepl);
 
-// OPTIONAL: Also allow execution on Enter key press in the commandLine
 commandLine.addEventListener("keydown", (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault(); // Prevent newline in textarea
         runPsiRepl();
     }
 });
-</script>
 
-</body>
-</html>
+</script></body></html>
