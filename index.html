@@ -132,12 +132,13 @@ body {
 
 <script>
 import pout from 'bci/basicConsoleInterface.js';
-printOutput( typeof bci );
 
 const webOutput= document.getElementById('webOutput');
 const runButton= document.getElementById('runButton');
 const commandLine= document.getElementById('commandLine');
 const webText= document.getElementById('webText'); 
+
+printOutput( typeof bci );
 
 
 function printOutput(html, className = 'pout') {
