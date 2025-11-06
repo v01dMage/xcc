@@ -114,7 +114,6 @@ body {
     "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@v0.180.0/build/three.module.js",
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.180.0/examples/jsm/",
-      "bci": "https://v01dmage.github.io/bci/",
 
     }
   }
@@ -131,14 +130,11 @@ body {
 <div id="webOutput"></div>
 
 <script>
-import pout from 'bci/basicConsoleInterface.js';
 
 const webOutput= document.getElementById('webOutput');
 const runButton= document.getElementById('runButton');
 const commandLine= document.getElementById('commandLine');
 const webText= document.getElementById('webText'); 
-
-printOutput( typeof bci );
 
 
 function printOutput(html, className = 'pout') {
